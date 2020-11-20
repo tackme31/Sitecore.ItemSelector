@@ -32,4 +32,4 @@ var field5 = item.SelectField("Related News:First.Category/Data.Name");
 - Takumi Yamada (xirtardauq@gmail.com)
 
 ## License
-*Cairngorm* is licensed under the MIT license. See LICENSE.
+*Sitecore.ItemFieldSelector* is licensed under the MIT license. See LICENSE.

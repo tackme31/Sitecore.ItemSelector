@@ -22,10 +22,10 @@ var field5 = item.SelectField("Related News:First.Category/Data.Name");
 
 ### SelectAllFields
 ```csharp
-// Get a "Name" field of all items that are referrerd in a "Categories" Multilist field.
+// Get a "Name" field of all items that are referred in a "Categories" Multilist field.
 var fields1 = item.SelectAllFields("Categories:*.Name");
 
-// Get a "Title" field of a "Data" child item for all items referrerd in a "Related News" field.
+// Get a "Title" field of a "Data" child item for all items referred in a "Related News" field.
 var fields2 = item.SelectAllFields("Related News:*/Data.Title");
 ```
 

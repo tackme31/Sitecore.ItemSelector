@@ -2,7 +2,7 @@
 A Sitecore library for getting an item's field with simple syntax.
 
 ## Usage
-### SelectFields
+### SelectField
 ```csharp
 // Get a "Category" field's "Name" field.
 var field1 = item.SelectField("Category.Name");

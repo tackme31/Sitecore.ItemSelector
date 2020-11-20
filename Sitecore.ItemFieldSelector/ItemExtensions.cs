@@ -17,7 +17,7 @@ namespace Sitecore.ItemFieldSelector
             var itemLinks = selector.Split('.').ToList();
             var targetItem = itemLinks.GetRange(0, itemLinks.Count - 1).Aggregate(item, GetTargetItem);
             var lastField = itemLinks.Last();
-            return targetItem.Fields[lastField];
+            return targetItem?.Fields[lastField];
         }
 
         private static Item GetTargetItem(Item item, string itemLink)
@@ -33,33 +33,34 @@ namespace Sitecore.ItemFieldSelector
             {
                 var namePart = match.Groups["namePart"].Value;
                 var index = int.Parse(match.Groups["index"].Value);
-                var multilistField = (MultilistField)item.Fields[namePart];
-                result = multilistField.GetItems()[index];
+                var multilistField = (MultilistField)item?.Fields[namePart];
+                var items = multilistField?.GetItems();
+                result = items?.Length <= index ? null : items?[index];
             }
             // MultilistField:First
             else if (name.EndsWith(":First", StringComparison.InvariantCultureIgnoreCase))
             {
                 var namePart = name.Split(':')[0];
-                var multilistField = (MultilistField)item.Fields[namePart];
-                result = multilistField.GetItems().First();
+                var multilistField = (MultilistField)item?.Fields[namePart];
+                result = multilistField?.GetItems().FirstOrDefault();
             }
             // MultilistField:Last
             else if (name.EndsWith(":Last", StringComparison.InvariantCultureIgnoreCase))
             {
                 var namePart = name.Split(':')[0];
-                var multilistField = (MultilistField)item.Fields[namePart];
-                result = multilistField.GetItems().Last();
+                var multilistField = (MultilistField)item?.Fields[namePart];
+                result = multilistField?.GetItems().LastOrDefault();
             }
             // Link field
             else if (!string.IsNullOrWhiteSpace(name))
             {
-                result = ((LinkField)item.Fields[name]).TargetItem ?? ((ReferenceField)item.Fields[name]).TargetItem;
+                result = ((LinkField)item?.Fields[name])?.TargetItem ?? ((ReferenceField)item?.Fields[name])?.TargetItem;
             }
 
             // ChildItem1/ChildItem2
-            if (children.Any())
+            if (result != null && children.Any())
             {
-                return children.Aggregate(result, (acc, n) => acc.Children[n]); ;
+                return children.Aggregate(result, (acc, n) => acc?.Children[n]);
             }
 
             return result;

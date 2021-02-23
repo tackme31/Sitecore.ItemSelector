@@ -37,7 +37,7 @@ namespace Sitecore.ItemFieldSelector
                     var restPart = match.Groups["restPart"].Value;
                     targetItems = targetItems
                         .Select(i => (MultilistField)i?.Fields[namePart])
-                        .SelectMany(field => field?.GetItems() ?? Array.Empty<Item>())
+                        .SelectMany(field => field?.GetItems() ?? new Item[0])
                         .Select(i => GetTargetItem(i, restPart))
                         .ToList();
                 }

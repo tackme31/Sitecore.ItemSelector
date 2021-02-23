@@ -15,11 +15,7 @@ namespace Sitecore.ItemFieldSelector
             Assert.ArgumentNotNull(item, nameof(item));
             Assert.ArgumentNotNullOrEmpty(selector, nameof(selector));
 
-            var itemLinks = selector.Split('.').ToList();
-            var targetItem = itemLinks.GetRange(0, itemLinks.Count - 1).Aggregate(item, GetTargetItem);
-            var lastField = itemLinks.Last();
-
-            return targetItem?.Fields[lastField];
+            return item.SelectAllFields(selector).FirstOrDefault();
         }
 
         public static List<Field> SelectAllFields(this Item item, string selector)

@@ -1,8 +1,18 @@
 # Sitecore.ItemFieldSelector
 A Sitecore library for getting an item's field with simple syntax.
 
+## Installation
+Download a package from [here](https://github.com/xirtardauq/Sitecore.ItemFieldSelector/releases) and install it from your local package source.
+
 ## Usage
+*Sitecore.ItemFieldSelector* provides the following methods:
+
+- [SelectField](#user-content-selectfield)
+- [SelectAllFields](#user-content-selectallfields)
+
 ### SelectField
+Returns a first field that are hit by the selector.
+
 ```csharp
 // Get a "Category" field's "Name" field.
 var field1 = item.SelectField("Category.Name");
@@ -21,6 +31,8 @@ var field5 = item.SelectField("Related News:First.Category/Data.Name");
 ```
 
 ### SelectAllFields
+Returns all fields that are hit by the selector.
+
 ```csharp
 // Get a "Name" field of all items that are referred in a "Categories" Multilist field.
 var fields1 = item.SelectAllFields("Categories:*.Name");

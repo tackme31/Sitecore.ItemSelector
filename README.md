@@ -13,7 +13,7 @@ Download a package from [here](https://github.com/xirtardauq/Sitecore.ItemSelect
 ### SelectItem
 Returns a first item that are hit by the selector.
 
-- Example 1: Get an item in link field.
+- Example 1: Get an item in a link field.
 ```csharp
 var item1 = item.SelectItem("Category.Group");
 
@@ -21,7 +21,7 @@ var item1 = item.SelectItem("Category.Group");
 var item2 = ((LinkField)((LinkField)item.Fields["Category"]).TargetItem.Fields["Group"]).TargetItem;
 ```
 
-- Example 2: Get an item in multilist field.
+- Example 2: Get an item in a multilist field.
 ```csharp
 var item1a = item.SelectItem("Tags:First");
 var item1b = item.SelectItem("Related News:Last");
@@ -55,7 +55,7 @@ var item2 = ((LinkField)news.Fields["Category"]).TargetItem.Parent.Children["Dat
 ### SelectAllItems
 Returns all items that are hit by the selector.
 
-- Example 1: Get all items in multilist field.
+- Example 1: Get all items in a multilist field.
 ```csharp
 var items1 = item.SelectAllItems("Tags*");
 

@@ -27,20 +27,20 @@ namespace Sitecore.ItemSelector
             foreach (var itemLink in selector.Split('.').ToList())
             {
                 // MultilistField*/Child
-                var match = Regex.Match(itemLink, @"^(?<namePart>\w+?)\*(?<restPart>.*)$");
-                if (match.Success)
+                // MultilistField*^
+                if (itemLink.Contains('*'))
                 {
-                    var namePart = match.Groups["namePart"].Value;
-                    var restPart = match.Groups["restPart"].Value;
+                    var namePart = itemLink.Split('*')[0];
+                    var restPart = itemLink.Split('*')[1];
                     targetItems = targetItems
-                        .Select(i => (MultilistField)i?.Fields[namePart])
+                        .Select(targetItem => (MultilistField)targetItem?.Fields[namePart])
                         .SelectMany(field => field?.GetItems() ?? new Item[0])
-                        .Select(i => GetTargetItem(i, restPart))
+                        .Select(multilistItem => GetTargetItem(multilistItem, restPart))
                         .ToList();
                 }
                 else
                 {
-                    targetItems = targetItems.Select(i => GetTargetItem(i, itemLink)).ToList();
+                    targetItems = targetItems.Select(targetItem => GetTargetItem(targetItem, itemLink)).ToList();
                 }
             }
 

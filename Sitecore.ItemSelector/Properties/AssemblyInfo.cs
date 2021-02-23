@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。
 // 制御されます。アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
-[assembly: AssemblyTitle("Sitecore.ItemFieldSelector")]
-[assembly: AssemblyDescription("A Sitecore library for getting an item's field with simple syntax.")]
+[assembly: AssemblyTitle("Sitecore.ItemSelector")]
+[assembly: AssemblyDescription("A Sitecore library for getting a link field target with simple syntax.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Takumi Yamada")]
-[assembly: AssemblyProduct("Sitecore.ItemFieldSelector")]
+[assembly: AssemblyProduct("Sitecore.ItemSelector")]
 [assembly: AssemblyCopyright("Copyright ©  2020 Takumi Yamada")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

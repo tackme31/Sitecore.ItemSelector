@@ -7,7 +7,7 @@
     <owners>$author$</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
-    <projectUrl>https://github.com/xirtardauq/Sitecore.ItemFieldSelector</projectUrl>
+    <projectUrl>https://github.com/xirtardauq/Sitecore.ItemSelector</projectUrl>
     <description>$description$</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright @2020 $author$</copyright>

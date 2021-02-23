@@ -1,50 +1,96 @@
-# Sitecore.ItemFieldSelector
-A Sitecore library for getting an item's field with simple syntax.
+# Sitecore.ItemSelector
+A Sitecore library for getting a link field target with simple syntax.
 
 ## Installation
-Download a package from [here](https://github.com/xirtardauq/Sitecore.ItemFieldSelector/releases) and install it from your local package source.
+Download a package from [here](https://github.com/xirtardauq/Sitecore.ItemSelector/releases) and install it from your local package source.
 
 ## Usage
-*Sitecore.ItemFieldSelector* provides the following methods:
+*Sitecore.ItemSelector* provides the following methods:
 
-- [SelectField](#user-content-selectfield)
-- [SelectAllFields](#user-content-selectallfields)
+- [SelectItem](#user-content-selectitem)
+- [SelectAllItems](#user-content-selectallitems)
 
-### SelectField
-Returns a first field that are hit by the selector.
+### SelectItem
+Returns a first item that are hit by the selector.
 
+- Example 1:
 ```csharp
-// Get a "Category" field's "Name" field.
-var field1 = item.SelectField("Category.Name");
+var item1 = item.SelectItem("Category");
 
-// Get a "Tags" field's a first item's "Name" field.
-var field2 = item.SelectField("Tags:First.Name");
-
-// Get a "Related News" field's a last item's "Title" field.
-var field3 = item.SelectField("Related News:Last.Title");
-
-// Get a "Ranking" field's a third item's "First Name" field.
-var field4 = item.SelectField("Ranking[3].First Name");
-
-// Get a "Related News" field's a first item's "Category" field's a "Data" child item's a "Name" field.
-var field5 = item.SelectField("Related News:First.Category/Data.Name");
+// Same as:
+var item2 = ((LinkField)item.Fields["Category"]).TargetItem;
 ```
 
-### SelectAllFields
-Returns all fields that are hit by the selector.
-
+- Example 2:
 ```csharp
-// Get a "Name" field of all items that are referred in a "Categories" Multilist field.
-var fields1 = item.SelectAllFields("Categories:*.Name");
+var item1 = item.SelectItem("Tags:First");
 
-// Get a "Title" field of a "Data" child item for all items referred in a "Related News" field.
-var fields2 = item.SelectAllFields("Related News:*/Data.Title");
+// Same as:
+var item2 = ((MultilistField)item.Fields["Tags"]).GetItems().FirstOrDefault();
+```
+
+- Example 3:
+```csharp
+var item1 = item.SelectItem("Related News:Last");
+
+// Same as:
+var item2 = ((MultilistField)item.Fields["Related News"]).GetItems().LastOrDefault();
+```
+
+- Example 4:
+```csharp
+var item1 = item.SelectItem("Ranking[3]");
+
+// Same as:
+var item2 = ((MultilistField)item.Fields["Ranking"]).GetItems()[3];
+```
+
+- Example 5:
+```csharp
+var item1 = item.SelectItem("Related News:First.Category/Data");
+
+// Same as:
+var news = ((MultilistField)item.Fields["Related News"]).GetItems().FirstOrDefault();
+var item2 = ((LinkField)news.Fields["Category"]).TargetItem.Children["Data"];
+```
+
+### SelectAllItems
+Returns all items that are hit by the selector.
+
+- Example 1:
+```csharp
+var items1 = item.SelectAllItems("Tags:*");
+
+// Same as:
+var items2 = ((MultilistField)item.Fields["Tags"]).GetItems().ToList();
+```
+
+- Example 2:
+```csharp
+var items1 = item.SelectAllItems("Categories:*.Color");
+
+// Same as:
+var items2 = ((MultilistField)item.Fields["Categories"])
+    .GetItems()
+    .Select(category => ((LinkField)category.Fields["Color"]).TargetItem)
+    .ToList();
+```
+
+- Example 3:
+```csharp
+var items1 = item.SelectAllItems("Related News:*/Data");
+
+// Same as:
+var items2 = ((MultilistField)item.Fields["Related News"])
+    .GetItems()
+    .Select(news => news.Children["Data"])
+    .ToList();
 ```
 
 ## Syntax
 |Syntax|Description|Example|
 |:-|:-|:-|
-|`.`|Select a field referred in a link field.|`Category.Color.Code`|
+|`.`|Select a item referred in a link field.|`Category.Color.Code`|
 |`:First`|Select a first item referred in a multilist field.|`Tags:First.Name`|
 |`:Last`|Select a last item referred in a multilist field.|`Tags:Last.Name`|
 |`:*`|Select all items referred in a multilist field.|`Tags:*.Name`|
@@ -55,4 +101,4 @@ var fields2 = item.SelectAllFields("Related News:*/Data.Title");
 - Takumi Yamada (xirtardauq@gmail.com)
 
 ## License
-*Sitecore.ItemFieldSelector* is licensed under the MIT license. See LICENSE.
+*Sitecore.ItemSelector* is licensed under the MIT license. See LICENSE.

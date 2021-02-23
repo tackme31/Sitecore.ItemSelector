@@ -6,28 +6,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Sitecore.ItemFieldSelector
+namespace Sitecore.ItemSelector
 {
     public static class ItemExtensions
     {
-        public static Field SelectField(this Item item, string selector)
+        public static Item SelectItem(this Item item, string selector)
         {
             Assert.ArgumentNotNull(item, nameof(item));
             Assert.ArgumentNotNullOrEmpty(selector, nameof(selector));
 
-            return item.SelectAllFields(selector).FirstOrDefault();
+            return item.SelectAllItems(selector).FirstOrDefault();
         }
 
-        public static List<Field> SelectAllFields(this Item item, string selector)
+        public static List<Item> SelectAllItems(this Item item, string selector)
         {
             Assert.ArgumentNotNull(item, nameof(item));
             Assert.ArgumentNotNullOrEmpty(selector, nameof(selector));
 
-            var itemLinks = selector.Split('.').ToList();
-            var lastField = itemLinks.Last();
             var targetItems = new List<Item>() { item };
-
-            foreach (var itemLink in itemLinks.GetRange(0, itemLinks.Count - 1))
+            foreach (var itemLink in selector.Split('.').ToList())
             {
                 // MultilistField:*/Child
                 var match = Regex.Match(itemLink, @"^(?<namePart>\w+?):\*(?<restPart>.*)$");
@@ -47,10 +44,7 @@ namespace Sitecore.ItemFieldSelector
                 }
             }
 
-            return targetItems
-                .Select(targetItem => targetItem?.Fields[lastField])
-                .Where(field => field != null)
-                .ToList();
+            return targetItems.Where(targetItem => targetItem != null).ToList();
         }
 
         private static Item GetTargetItem(Item item, string itemLink)

@@ -7,8 +7,8 @@
     <ProjectGuid>{9484B0D0-1756-4E3E-A175-580EA56790B4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sitecore.ItemFieldSelector</RootNamespace>
-    <AssemblyName>Sitecore.ItemFieldSelector</AssemblyName>
+    <RootNamespace>Sitecore.ItemSelector</RootNamespace>
+    <AssemblyName>Sitecore.ItemSelector</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

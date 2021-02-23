@@ -26,8 +26,8 @@ namespace Sitecore.ItemSelector
             var targetItems = new List<Item>() { item };
             foreach (var itemLink in selector.Split('.').ToList())
             {
-                // MultilistField:*/Child
-                var match = Regex.Match(itemLink, @"^(?<namePart>\w+?):\*(?<restPart>.*)$");
+                // MultilistField*/Child
+                var match = Regex.Match(itemLink, @"^(?<namePart>\w+?)\*(?<restPart>.*)$");
                 if (match.Success)
                 {
                     var namePart = match.Groups["namePart"].Value;

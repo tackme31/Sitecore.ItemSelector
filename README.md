@@ -67,7 +67,7 @@ Returns all items that are hit by the selector.
 
 - Example 1:
 ```csharp
-var items1 = item.SelectAllItems("Tags:*");
+var items1 = item.SelectAllItems("Tags*");
 
 // Same as:
 var items2 = ((MultilistField)item.Fields["Tags"]).GetItems().ToList();
@@ -75,7 +75,7 @@ var items2 = ((MultilistField)item.Fields["Tags"]).GetItems().ToList();
 
 - Example 2:
 ```csharp
-var items1 = item.SelectAllItems("Categories:*.Color");
+var items1 = item.SelectAllItems("Categories*.Color");
 
 // Same as:
 var items2 = ((MultilistField)item.Fields["Categories"])
@@ -86,7 +86,7 @@ var items2 = ((MultilistField)item.Fields["Categories"])
 
 - Example 3:
 ```csharp
-var items1 = item.SelectAllItems("Related News:*/Data");
+var items1 = item.SelectAllItems("Related News*/Data");
 
 // Same as:
 var items2 = ((MultilistField)item.Fields["Related News"])
@@ -97,7 +97,7 @@ var items2 = ((MultilistField)item.Fields["Related News"])
 
 - Example 4:
 ```csharp
-var items1 = item.SelectAllItems("Related News:*/Data.Categories:*.Group");
+var items1 = item.SelectAllItems("Related News*/Data.Categories*.Group");
 
 // Same as:
 var items2 = ((MultilistField)item.Fields["Related News"])
@@ -111,11 +111,11 @@ var items2 = ((MultilistField)item.Fields["Related News"])
 ## Syntax
 |Syntax|Description|Example|
 |:-|:-|:-|
-|`.`|Select a item referred in a link field.|`Category.Color.Code`|
-|`:First`|Select a first item referred in a multilist field.|`Tags:First.Name`|
-|`:Last`|Select a last item referred in a multilist field.|`Tags:Last.Name`|
-|`:*`|Select all items referred in a multilist field.|`Tags:*.Name`|
-|`[N]`|Select a `N`th item refered in a multilist field.|`Tags[3].Name`|
+|`.`|Select a item referred in a link field.|`Category.Group`|
+|`:First`|Select a first item referred in a multilist field.|`Tags:First`|
+|`:Last`|Select a last item referred in a multilist field.|`Tags:Last`|
+|`*`|Select all items referred in a multilist field.|`Tags*`|
+|`[N]`|Select a `N`th item refered in a multilist field.|`Tags[3]`|
 |`/`|Select a child item.|`Data/Metadata`|
 
 ## Author

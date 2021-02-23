@@ -117,6 +117,7 @@ var items2 = ((MultilistField)item.Fields["Related News"])
 |`*`|Select all items referred in a multilist field.|`Tags*`|
 |`[N]`|Select a `N`th item refered in a multilist field.|`Tags[3]`|
 |`/`|Select a child item.|`Data/Metadata`|
+|`^`|Select a parent item.|`Data^`|
 
 ## Author
 - Takumi Yamada (xirtardauq@gmail.com)

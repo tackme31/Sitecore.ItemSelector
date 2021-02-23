@@ -49,9 +49,8 @@ namespace Sitecore.ItemSelector
 
         private static Item GetTargetItem(Item item, string itemLink)
         {
-            var nameAndChildren = itemLink.Split('/').ToList();
-            var name = nameAndChildren.First();
-            var children = nameAndChildren.GetRange(1, nameAndChildren.Count - 1);
+            var name = itemLink.Split('/', '^').First();
+            var axes = itemLink.Substring(name.Length);
             var result = item;
 
             // MultilistField[0]
@@ -84,10 +83,22 @@ namespace Sitecore.ItemSelector
                 result = ((LinkField)item?.Fields[name])?.TargetItem ?? ((ReferenceField)item?.Fields[name])?.TargetItem;
             }
 
-            // ChildItem1/ChildItem2
-            if (result != null && children.Any())
+            // Parent and Children
+            if (result != null && !string.IsNullOrEmpty(axes))
             {
-                return children.Aggregate(result, (acc, n) => acc?.Children[n]);
+                foreach (var child in axes.Split('/'))
+                {
+                    // 'child' should be "^[^/^]*\\^*$" pattern (e.g. 'Foo', 'Foo^^', '^^^')
+                    var childName = child.TrimEnd('^');
+                    if (!string.IsNullOrEmpty(childName))
+                    {
+                        result = result.Children[childName];
+                    }
+
+                    // Climb up to parents
+                    var climbCount = child.Length - childName.Length;
+                    result = Enumerable.Range(0, climbCount).Aggregate(result, (acc, _) => result.Parent);
+                }
             }
 
             return result;

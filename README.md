@@ -47,6 +47,14 @@ var item2 = ((MultilistField)item.Fields["Ranking"]).GetItems()[3];
 
 - Example 5:
 ```csharp
+var item1 = item.SelectItem("/Data Folder/Metadata");
+
+// Same as:
+var item2 = item.Children["Data Folder"].Children["Metadata"];
+```
+
+- Example 6:
+```csharp
 var item1 = item.SelectItem("Related News:First.Category/Data");
 
 // Same as:
@@ -87,6 +95,19 @@ var items2 = ((MultilistField)item.Fields["Related News"])
     .ToList();
 ```
 
+- Example 4:
+```csharp
+var items1 = item.SelectAllItems("Related News:*/Data.Categories:*.Group");
+
+// Same as:
+var items2 = ((MultilistField)item.Fields["Related News"])
+    .GetItems()
+    .Select(news => news.Children["Data"])
+    .SelectMany(data => ((MultilistField)data.Fields["Categories"]).GetItems())
+    .Select(category => ((LinkField)category.Fields["Group"]).TargetItem)
+    .ToList();
+```
+
 ## Syntax
 |Syntax|Description|Example|
 |:-|:-|:-|
@@ -95,7 +116,7 @@ var items2 = ((MultilistField)item.Fields["Related News"])
 |`:Last`|Select a last item referred in a multilist field.|`Tags:Last.Name`|
 |`:*`|Select all items referred in a multilist field.|`Tags:*.Name`|
 |`[N]`|Select a `N`th item refered in a multilist field.|`Tags[3].Name`|
-|`/`|Select a child item.|`Data/Metadata.Title`|
+|`/`|Select a child item.|`Data/Metadata`|
 
 ## Author
 - Takumi Yamada (xirtardauq@gmail.com)

@@ -97,7 +97,7 @@ namespace Sitecore.ItemSelector
 
                     // Climb up to parents
                     var climbCount = child.Length - childName.Length;
-                    result = Enumerable.Range(0, climbCount).Aggregate(result, (acc, _) => result.Parent);
+                    result = Enumerable.Range(0, climbCount).Aggregate(result, (acc, _) => acc.Parent);
                 }
             }
 

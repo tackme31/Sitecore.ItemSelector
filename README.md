@@ -13,59 +13,49 @@ Download a package from [here](https://github.com/xirtardauq/Sitecore.ItemSelect
 ### SelectItem
 Returns a first item that are hit by the selector.
 
-- Example 1:
+- Example 1: Get an item in a link field.
 ```csharp
-var item1 = item.SelectItem("Category");
+var item1 = item.SelectItem("Category.Group");
 
 // Same as:
-var item2 = ((LinkField)item.Fields["Category"]).TargetItem;
+var item2 = ((LinkField)((LinkField)item.Fields["Category"]).TargetItem.Fields["Group"]).TargetItem;
 ```
 
-- Example 2:
+- Example 2: Get an item in a multilist field.
 ```csharp
-var item1 = item.SelectItem("Tags:First");
+var item1a = item.SelectItem("Tags:First");
+var item1b = item.SelectItem("Related News:Last");
+var item1c = item.SelectItem("Ranking[3]");
 
 // Same as:
-var item2 = ((MultilistField)item.Fields["Tags"]).GetItems().FirstOrDefault();
+var item2a = ((MultilistField)item.Fields["Tags"]).GetItems().FirstOrDefault();
+var item2b = ((MultilistField)item.Fields["Tags"]).GetItems().LastOfDefault();
+var item2c = ((MultilistField)item.Fields["Tags"]).GetItems()[3];
 ```
 
-- Example 3:
+- Example 3: Get a child/parent item.
 ```csharp
-var item1 = item.SelectItem("Related News:Last");
+var item1a = item.SelectItem("/Data Folder/Metadata");
+var item1b = item.SelectItem("^^/Settings");
 
 // Same as:
-var item2 = ((MultilistField)item.Fields["Related News"]).GetItems().LastOrDefault();
+var item2a = item.Children["Data Folder"].Children["Metadata"];
+var item2b = item.Parent.Parent.Children["Settings"];
 ```
 
-- Example 4:
+- Example 4: Complex pattern.
 ```csharp
-var item1 = item.SelectItem("Ranking[3]");
-
-// Same as:
-var item2 = ((MultilistField)item.Fields["Ranking"]).GetItems()[3];
-```
-
-- Example 5:
-```csharp
-var item1 = item.SelectItem("/Data Folder/Metadata");
-
-// Same as:
-var item2 = item.Children["Data Folder"].Children["Metadata"];
-```
-
-- Example 6:
-```csharp
-var item1 = item.SelectItem("Related News:First.Category/Data");
+var item1 = item.SelectItem("Related News:First.Category^/Data");
 
 // Same as:
 var news = ((MultilistField)item.Fields["Related News"]).GetItems().FirstOrDefault();
-var item2 = ((LinkField)news.Fields["Category"]).TargetItem.Children["Data"];
+var item2 = ((LinkField)news.Fields["Category"]).TargetItem.Parent.Children["Data"];
 ```
 
 ### SelectAllItems
 Returns all items that are hit by the selector.
 
-- Example 1:
+- Example 1: Get all items in a multilist field.
 ```csharp
 var items1 = item.SelectAllItems("Tags*");
 
@@ -73,29 +63,7 @@ var items1 = item.SelectAllItems("Tags*");
 var items2 = ((MultilistField)item.Fields["Tags"]).GetItems().ToList();
 ```
 
-- Example 2:
-```csharp
-var items1 = item.SelectAllItems("Categories*.Color");
-
-// Same as:
-var items2 = ((MultilistField)item.Fields["Categories"])
-    .GetItems()
-    .Select(category => ((LinkField)category.Fields["Color"]).TargetItem)
-    .ToList();
-```
-
-- Example 3:
-```csharp
-var items1 = item.SelectAllItems("Related News*/Data");
-
-// Same as:
-var items2 = ((MultilistField)item.Fields["Related News"])
-    .GetItems()
-    .Select(news => news.Children["Data"])
-    .ToList();
-```
-
-- Example 4:
+- Example 2: Complex pattern.
 ```csharp
 var items1 = item.SelectAllItems("Related News*/Data.Categories*.Group");
 
@@ -117,6 +85,7 @@ var items2 = ((MultilistField)item.Fields["Related News"])
 |`*`|Select all items referred in a multilist field.|`Tags*`|
 |`[N]`|Select a `N`th item refered in a multilist field.|`Tags[3]`|
 |`/`|Select a child item.|`Data/Metadata`|
+|`^`|Select a parent item.|`Data^`|
 
 ## Author
 - Takumi Yamada (xirtardauq@gmail.com)
